@@ -3,13 +3,20 @@ using UnityEngine;
 public class Rata : MonoBehaviour
 {
     public int health = 50; // Salud del Rata
-    //private GameManager gameManager;
+    public Transform cheeseTarget;
+    public float speed = 2.0f;
 
-    void Start()
+    void Update()
     {
-        //gameManager = FindObjectOfType<GameManager>();
-        //Debug.Log("GameManager encontrado: " + gameManager);
+        if (cheeseTarget != null)
+        {
+            // Mueve la rata hacia el queso
+            Vector3 direction = cheeseTarget.position - transform.position;
+            transform.right = -direction.normalized;
+            transform.position += Vector3.Normalize(cheeseTarget.position - transform.position) * speed * Time.deltaTime;
+        }
     }
+
     public void TakeDamage(int damage)
     {
         health -= damage; // Reducir la salud
@@ -25,7 +32,7 @@ public class Rata : MonoBehaviour
     void Die()
     {
         Debug.Log("Rata muerto, destruyendo objeto.");
-        Destroy(gameObject); // Destruye el zombi
+        Destroy(gameObject); // Destruye la rata
     }
 
     void OnCollisionEnter(Collision collision)

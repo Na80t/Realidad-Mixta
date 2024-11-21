@@ -1,24 +1,9 @@
 fileFormatVersion: 2
-guid: 15fe358d38d18094aa44e1ba2019eb81
+guid: cafea4781aae90244893d8853d89943f
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: RataTexCola
-    second: {fileID: 2100000, guid: c961ccd6667cfdc4d8582283f2e77eea, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: RataTexOjo
-    second: {fileID: 2100000, guid: 99d37e2c1b6c61f449a5573ffec9c3be, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: RataTextura
-    second: {fileID: 2100000, guid: 17b722497d178664686195c604d40c1d, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -114,7 +99,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 1
+  avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0

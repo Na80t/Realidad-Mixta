@@ -1,53 +1,55 @@
-using System.Collections;
 using UnityEngine;
 
-public class RataSpawner : MonoBehaviour
+public class RatSpawner : MonoBehaviour
 {
-    public GameObject RataPrefab; // Asigna el prefab del raton en el Inspector
-    public float spawnInterval = 3f; // Intervalo entre apariciones de raton
-    public Transform[] spawnPoints; // Puntos de aparición de raton
+    public GameObject ratPrefab;       // Prefab de la rata
+    public int numberOfRats = 5;       // Cantidad de ratas a generar
+    public float spawnInterval = 1.0f; // Intervalo de tiempo entre cada generación
 
-    private void Start()
+    private Transform cheeseTarget;
+    private float spawnTimer = 0.0f;
+    private int ratsSpawned = 0;
+
+    void Start()
     {
-        // Verificar si se ha asignado el prefab de Rata
-        if (RataPrefab == null)
-        {
-            Debug.LogError("Rata prefab no asignado. Por favor, asigna el prefab del Rata en el Inspector.");
-            return; // Detener si no hay prefab
-        }
-
-        // Verificar si hay puntos de spawn asignados
-        if (spawnPoints.Length == 0)
-        {
-            Debug.LogError("No hay puntos de spawn asignados. Asigna al menos un punto de spawn en el Inspector.");
-            return; // Detener si no hay puntos de spawn
-        }
-
-        // Iniciar la corutina de generación de zombis
-        StartCoroutine(SpawnRatas());
+        FindCheeseTarget();
     }
 
-    // Corutina para generar zombis en intervalos de tiempo
-    private IEnumerator SpawnRatas()
+    void Update()
     {
-        while (true)
+        // Si ya tenemos un objetivo "queso", generamos ratas
+        if (cheeseTarget != null && ratsSpawned < numberOfRats)
         {
-            SpawnRata();
-            yield return new WaitForSeconds(spawnInterval); // Espera antes de generar el siguiente zombi
+            spawnTimer += Time.deltaTime;
+
+            if (spawnTimer >= spawnInterval)
+            {
+                SpawnRat();
+                spawnTimer = 0.0f;
+            }
+        }
+        else if (cheeseTarget == null) // Sigue buscando el "queso" si no está asignado
+        {
+            FindCheeseTarget();
         }
     }
 
-    // Método para generar un zombi en un punto aleatorio
-    private void SpawnRata()
+    void FindCheeseTarget()
     {
-        if (spawnPoints.Length > 0)
-        {
-            // Elegir un punto de aparición aleatorio
-            int spawnIndex = Random.Range(0, spawnPoints.Length);
-            Debug.Log("Generando Rata en: " + spawnPoints[spawnIndex].position); // Log para verificar el spawn
+        GameObject cheeseObject = GameObject.FindGameObjectWithTag("queso");
 
-            // Instanciar el Rata en el punto de aparición seleccionado
-            Instantiate(RataPrefab, spawnPoints[spawnIndex].position, Quaternion.identity);
+        if (cheeseObject != null)
+        {
+            cheeseTarget = cheeseObject.transform;
         }
+    }
+
+    void SpawnRat()
+    {
+        GameObject newRat = Instantiate(ratPrefab, transform.position, Quaternion.identity);
+        Rata ratScript = newRat.GetComponent<Rata>();
+        ratScript.cheeseTarget = cheeseTarget;
+
+        ratsSpawned++;
     }
 }
