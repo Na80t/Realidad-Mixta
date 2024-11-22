@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Shot : MonoBehaviour
 {
@@ -11,10 +12,31 @@ public class Shot : MonoBehaviour
 
     private float nextShotTime = 0.0f; // Controla el tiempo del próximo disparo
 
-    private void Update()
+    private PlayerInput playerInput; // Componente PlayerInput
+    private InputAction shootAction; // Acción de disparo
+
+    private void Awake()
     {
-        // Detectar clic del mouse o toque en pantalla
-        if ((Input.GetMouseButton(0) || Input.touchCount > 0) && Time.time >= nextShotTime)
+        // Obtener el componente PlayerInput y la acción de disparo
+        playerInput = GetComponent<PlayerInput>();
+        shootAction = playerInput.actions["Shoot"];
+    }
+
+    private void OnEnable()
+    {
+        // Subscribirse al evento de disparo
+        shootAction.performed += OnShootPerformed;
+    }
+
+    private void OnDisable()
+    {
+        // Desubscribirse del evento de disparo
+        shootAction.performed -= OnShootPerformed;
+    }
+
+    private void OnShootPerformed(InputAction.CallbackContext context)
+    {
+        if (Time.time >= nextShotTime)
         {
             Shoot();
             nextShotTime = Time.time + shotRate; // Actualiza el tiempo del próximo disparo
