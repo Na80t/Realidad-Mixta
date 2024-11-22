@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 5a3b47ccffdc67b4e8bad6e3d4dec9e4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - ratPrefab: {fileID: 8157999703109819359, guid: 36e35fbd2d3d75342a32b43a0df63f31,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
