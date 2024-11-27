@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.InputSystem;  // Importa el nuevo sistema de entrada
 
 public class Shot : MonoBehaviour
 {
@@ -11,32 +11,28 @@ public class Shot : MonoBehaviour
     public float shotRate = 0.5f; // Intervalo entre disparos
 
     private float nextShotTime = 0.0f; // Controla el tiempo del próximo disparo
-
-    private PlayerInput playerInput; // Componente PlayerInput
-    private InputAction shootAction; // Acción de disparo
+    private InputAction shootAction; // Acción para disparar
 
     private void Awake()
     {
-        // Obtener el componente PlayerInput y la acción de disparo
-        playerInput = GetComponent<PlayerInput>();
-        shootAction = playerInput.actions["Shoot"];
+        // Definir la acción para disparar usando el nuevo sistema de entrada
+        shootAction = new InputAction("Shoot", binding: "<Mouse>/leftButton");
     }
 
     private void OnEnable()
     {
-        // Subscribirse al evento de disparo
-        shootAction.performed += OnShootPerformed;
+        shootAction.Enable();  // Habilita la acción de disparo
     }
 
     private void OnDisable()
     {
-        // Desubscribirse del evento de disparo
-        shootAction.performed -= OnShootPerformed;
+        shootAction.Disable(); // Deshabilita la acción de disparo
     }
 
-    private void OnShootPerformed(InputAction.CallbackContext context)
+    private void Update()
     {
-        if (Time.time >= nextShotTime)
+        // Detecta si se ha presionado el botón de disparo (botón izquierdo del ratón)
+        if (shootAction.triggered && Time.time >= nextShotTime)
         {
             Shoot();
             nextShotTime = Time.time + shotRate; // Actualiza el tiempo del próximo disparo
